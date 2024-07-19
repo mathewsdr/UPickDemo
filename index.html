@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<header>
+    <img src="logo.png" alt="Your Logo" class="header-logo">
+    <div class="header-center">
+        <h1 class = "header-text">UPick</h1>
+        <nav class = "header-menu">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="player-icon-container">
+        <div class="player-icon" id="header-player-icon"></div>
+    </div>
+</header>
+<body>
+    <div id="default-screen" class="screen active">
+        <form id="usernameForm">
+            <label for="textInput">Username:</label><br><br>
+            <input type="text" id="textInput" name="username"><br><br><br>
+            <label for="code">Join code:</label><br><br>
+            <input type="text" id="code" name="joinCode"><br><br><br>
+        </form>
+        <h2>Please select your icon:</h2>
+        <div id="iconSelector">
+            <button data-icon="icon1" class="icon-button"><span class="icon icon1"></span></button>
+            <button data-icon="icon2" class="icon-button"><span class="icon icon2"></span></button>
+            <button data-icon="icon3" class="icon-button"><span class="icon icon3"></span></button>
+            <button data-icon="icon4" class="icon-button"><span class="icon icon4"></span></button>
+        </div><br><br><br>
+        <button id="submit-button" class="big-button" type="button" onclick="collectInfo()">Submit</button>
+    </div>
+    <div id="lobby-screen" class="screen">
+        <div id="survey-container">
+            <form id="survey-form">
+                <div id="survey-questions-container">
+                    <h1 id="survey-question">You shouldn't see this</h1>
+                </div>
+                <div id="survey-wrapper-container">
+                    <div id="survey-answers-container">
+                        <!--Generate answer buttons here-->
+                    </div>
+                </div>
+                <button type="button" class="big-button" id="next-survey-question-button">Next Question</button>
+            </form>
+        </div>
+    </div>
+    <div id="end-survey" class="screen">
+        <div id="header">
+            <h1>Thank you for completing the into survey</h1>
+            <h2>Please wait for host to begin the game</h2>
+        </div>
+        <div id="user-list-container">
+            <div id="users-container">
+                <!--player cards go here-->
+            </div>
+        </div><br><br>
+        <button class="big-button" id="startGameButton" style="display: none;">Start Game</button>
+    </div>
+    <div id="game-screen" class="screen">
+        <div id="game-container">
+            <h1 id="game-question"> Can you see this? </h1>
+            <div id="game-question-container">
+            </div>
+            <div id="game-answers-container">
+                <!--Generate answer buttons here-->
+            </div>
+        </div><br>
+        <button class="big-button" id="answer-lock-button">Confirm</button>
+    </div>
+    <div id="game-wait-screen" class="screen">
+        <div id="header">
+            <h1>Please wait for other users to lock in their answers</h1>
+        </div>
+        <button class='big-button' id="nextQuestionButton" style="display: none;">Next Question</button>
+    </div>
+    <div id="chart-screen" class="screen">
+        <br><br>
+        <div id="pie-chart-container" style="width: 70%; height: 1000px; margin: auto;">
+            <canvas id="pie-chart"></canvas>
+        </div>
+        <div id="total-players"></div><br>
+        <button class="big-button" id="continueButton" style="display: none;">Continue</button>
+    </div>
+    <div id="movie-screen" class="screen">
+        <br><h1 id="final-message">Congratulations! UPicked a movie!</h1>
+        <br><div id="movie-container"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
