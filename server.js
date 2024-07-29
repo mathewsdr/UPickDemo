@@ -52,7 +52,7 @@ async function fetchMovies(page = 1, sortBy = "popularity.desc") {
 }
 async function initializeMovieList() {
     try {
-        for (let page = 1; page <= 10; page++) { //50
+        for (let page = 1; page <= 30; page++) { 
             const movies = await fetchMovies(page);
             rawMovieList = rawMovieList.concat(movies);
             filtered = filtered.concat(movies);
@@ -61,28 +61,6 @@ async function initializeMovieList() {
         io.emit('movieListReady');
         rawMovieList.slice(1,2).forEach(item => {console.log(item)});
 
-
-
-//        let streamingServices = [];
-//        rawMovieList.forEach(movie => {
-//            streamingServices=streamingServices.concat(movie.streamingServices);
-//        });
-//
-//        let counts = {};
-//        streamingServices.forEach(entry => {
-//            if(counts[entry]){
-//                counts[entry] += 1;
-//            }
-//            else {
-//                counts[entry] = 1;
-//            }
-//        });
-//        for (key in counts) {
-//            var curr = counts[key];
-//            if (curr>100) {
-//                console.log(key,curr);
-//            }
-//        }
     } 
     catch (error) {
         console.error("Failed to initialize movie list:", error);

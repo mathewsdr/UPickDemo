@@ -435,8 +435,3 @@ socket.on('movie', (movie) => {
 socket.on('movieChosen', () => {
     movieChosen = true;
 });
-
-
-// make the user story
-// actually host website
-// test display on other screens
