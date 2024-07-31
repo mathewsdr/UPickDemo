@@ -125,20 +125,15 @@ io.on('connection', (socket) => {
     socket.emit('updateGameQuestionIndex', currentQuestionIndex);
     socket.on('disconnect', () => {
         console.log(`A user disconnected: ${socket.id}`);
-        const userData = userDirectory[socket.id];
-        if (userData) {
-            const userIndex = users.findIndex(user => user.id === socket.id);
-            if (userIndex !== -1) {
-                users.splice(userIndex, 1);
-            }
-            for (let i = 0; i <= currentQuestionIndex; i++) {
-                answers[i].shift();
-            }
-            delete preferences[socket.id];
-            delete userDirectory[socket.id];
-            io.emit('addedUser', users);
-        }
-        console.log(users);
+        users = users.filter(user => user.id !== socket.id);
+        delete preferences[socket.id];
+        delete userDirectory[socket.id];
+        answers.forEach((answerList, index) => {
+            answerList.shift();
+            answers[index] = answerList;
+        })
+        io.emit('addedUser', users);
+        console.log('updated user list',users);
     });
     socket.on('message', (message) => {
         console.log('recieved message:', message);
