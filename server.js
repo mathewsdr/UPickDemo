@@ -133,6 +133,19 @@ io.on('connection', (socket) => {
             delete preferences[socket.id];
             delete userDirectory[socket.id];
             io.emit('addedUser', users);
+            if (!users[0]) {
+                exec('az webapp restart --name upickdemo --resource-group InternAppProject', (error, stdout, stderr) => {
+                    if (error) {
+                      console.error(`Error restarting app: ${error.message}`);
+                      return;
+                    }
+                    if (stderr) {
+                        console.error(`stderr: ${stderr}`);
+                        return;
+                      }
+                      console.log(`stdout: ${stdout}`);
+                    });
+            }
         }
         console.log(users);
     });
