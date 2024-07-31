@@ -6,6 +6,7 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const path = require('path');
+const { exec } = require('child_process');
 
 const app = express();
 const server = http.createServer(app);
@@ -130,22 +131,12 @@ io.on('connection', (socket) => {
             if (userIndex !== -1) {
                 users.splice(userIndex, 1);
             }
+            for (let i = 0; i <= currentQuestionIndex; i++) {
+                answers[i].shift();
+            }
             delete preferences[socket.id];
             delete userDirectory[socket.id];
             io.emit('addedUser', users);
-            if (!users[0]) {
-                exec('az webapp restart --name upickdemo --resource-group InternAppProject', (error, stdout, stderr) => {
-                    if (error) {
-                      console.error(`Error restarting app: ${error.message}`);
-                      return;
-                    }
-                    if (stderr) {
-                        console.error(`stderr: ${stderr}`);
-                        return;
-                      }
-                      console.log(`stdout: ${stdout}`);
-                    });
-            }
         }
         console.log(users);
     });
@@ -360,7 +351,6 @@ io.on('connection', (socket) => {
                     }
                 }
             }
-            console.log('sorted:', filtered.slice(0,2));
         }
     });
     socket.on('getAnswers', () => {
@@ -384,6 +374,41 @@ io.on('connection', (socket) => {
         io.emit('continueGame');
     });
     socket.on('nextQuestion', () => {
+        if (currentQuestionIndex%3===0 && currentQuestionIndex!==0) {
+            let confirm = 0;
+            let deny = 0;
+            for (const entry of answers[currentQuestionIndex]) {
+                console.log('answer is', entry);
+                if (entry==='Pick') {
+                    confirm+=1;
+                }
+                else if (entry==='Pass') {
+                    deny+=1;
+                }
+            }
+            if (confirm>deny) {
+                console.log('majority chose pick');
+                io.emit('movieChosen');
+            }
+        }
+        else {
+            const freq = {};
+            answers[currentQuestionIndex].forEach(choice => {
+                freq[choice] = (freq[choice] || 0) + 1;
+            });
+            let topChoice = null;
+            let maxCount = 0;
+            for (const [a,c] of Object.entries(freq)) {
+                if (c > maxCount) {
+                    topChoice = a;
+                    maxCount = c;
+                }
+            }
+            console.log('top choice:', topChoice);
+            finalAnswers[currentQuestionIndex] = topChoice;
+        }
+        currentQuestionIndex++;
+        io.emit('updateGameQuestionIndex', currentQuestionIndex);
         io.emit('allUsersAnsweredGame');
     });
     socket.on('pieChart', (index) => {

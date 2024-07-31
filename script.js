@@ -247,6 +247,9 @@ function finalMovie() {
     title.textContent = currentMovie.original_title || '';
     title.style.marginTop = '20px';
     movieContainer.appendChild(title);
+    const platform = document.createElement('h2');
+    platform.textContent = `This title is avaliable on the following services: ${currentMovie.streamingServices}`;
+    movieContainer.appendChile(platform);
 }
 
 
@@ -435,3 +438,4 @@ socket.on('movie', (movie) => {
 socket.on('movieChosen', () => {
     movieChosen = true;
 });
+//display streaming platform with final movie
