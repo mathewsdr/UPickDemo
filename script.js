@@ -231,6 +231,7 @@ function initPieChart(data) {
             }
         }
     });
+    console.log(counts);
     return window.pieChart;
 }
 function finalMovie() {
@@ -249,7 +250,7 @@ function finalMovie() {
     movieContainer.appendChild(title);
     const platform = document.createElement('h2');
     platform.textContent = `This title is avaliable on the following services: ${currentMovie.streamingServices}`;
-    movieContainer.appendChile(platform);
+    movieContainer.appendChild(platform);
 }
 
 

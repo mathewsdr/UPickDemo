@@ -130,8 +130,11 @@ io.on('connection', (socket) => {
         delete userDirectory[socket.id];
         answers.forEach((answerList, index) => {
             answerList.shift();
-            answers[index] = answerList;
         })
+        labels.forEach((answerList, index) => {
+            answerList.shift();
+        })
+        console.log('answers: ',answers);
         io.emit('addedUser', users);
         console.log('updated user list',users);
     });
