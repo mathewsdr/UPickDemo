@@ -367,7 +367,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     position: relative;
     box-sizing: border-box;
 }
@@ -385,7 +385,7 @@ header {
 }
 .header-menu {
     width: 100%;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     text-align: center;
     padding: 0.5rem 0;
 }

@@ -249,7 +249,20 @@ function finalMovie() {
     title.style.marginTop = '20px';
     movieContainer.appendChild(title);
     const platform = document.createElement('h2');
-    platform.textContent = `This title is avaliable on the following services: ${currentMovie.streamingServices}`;
+    platform.textContent = 'This title is avaliable on the following service(s): ';
+    if (currentMovie.streamingServices.includes("Netflix")) {
+        platform.textContent = platform.textContent + "Netflix, ";
+    }
+    if (currentMovie.streamingServices.includes("Disney Plus")) {
+        platform.textContent = platform.textContent + "Disney+, ";
+    }
+    if (currentMovie.streamingServices.includes("fuboTV")) {
+        platform.textContent = platform.textContent + "fuboTV, ";
+    }
+    if (currentMovie.streamingServices.includes("Max")) {
+        platform.textContent = platform.textContent + "Max, ";
+    }
+    platform.textContent = platform.textContent.slice(0,-2);
     movieContainer.appendChild(platform);
 }
 
@@ -299,7 +312,7 @@ let gameQuestions = [
     {
         question: 'What type of conflict grabs your attention?',
         answers: ['Sheriff vs Outlaws', 'Humans vs Aliens', 'Parents vs Children', 'Heros vs Dragons'],
-        filters: ['Westerm','Science Fiction','Family','Fantasy']
+        filters: ['Western','Science Fiction','Family','Fantasy']
     },
     {
         question: 'Which type of soundtrack appeals to you?',
@@ -362,7 +375,6 @@ socket.on('updateGameQuestionIndex', (index) => {
     }
 });
 socket.on('allUsersAnsweredGame', () => {
-    socket.emit('message', 'all users answered the question');
     showScreen('chart-screen');
     socket.emit('applyAnswers', currentGameQuestionIndex);
     socket.emit('pieChart', currentGameQuestionIndex);

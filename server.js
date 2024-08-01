@@ -137,6 +137,11 @@ io.on('connection', (socket) => {
         console.log('answers: ',answers);
         io.emit('addedUser', users);
         console.log('updated user list',users);
+        if (users.length < 1) {
+            rawMovieList = [];
+            filtered = [];
+            initializeMovieList();
+        }
     });
     socket.on('message', (message) => {
         console.log('recieved message:', message);
@@ -174,7 +179,7 @@ io.on('connection', (socket) => {
         console.log('recieved answer:', answer);
         answers[questionIndex].push(answer);
         if (answers[questionIndex].length===users.length) {
-            if (questionIndex%3===0 && questionIndex!==0) {
+            if ((questionIndex%3===0 && questionIndex!==0) || questionIndex>10) {
                 let confirm = 0;
                 let deny = 0;
                 for (const entry of answers[questionIndex]) {
